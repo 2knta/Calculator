@@ -5,7 +5,6 @@ WIDTH = 265
 HEIGHT = 427
 GEOMETRY = "{}x{}".format(WIDTH, HEIGHT)
 BACKGROUND_COLOR = "#181717"
-BUTTONS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 
 class App(tk.Tk):
@@ -19,94 +18,48 @@ class Calculator(tk.Frame):
         self.root = root
         self.config(width=WIDTH, height=HEIGHT, background=BACKGROUND_COLOR)
         self.pack(fill="both", expand="True")
-
         self.create_ui()
 
     def create_ui(self):
+        
+        # Display
         opts = {'ipadx': 20, 'ipady': 20, 'sticky': 'nswe', "padx": 5, "pady": 5}
-
         self.display = tk.Label(self)
         self.display.grid(row=0, column=0, columnspan=4, rowspan=2, **opts)
 
-        self.button = tk.Button(self, text="C", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=2, column=0, **opts)
+        # Buttons
+        self.btn_C = self.create_button(2, 0, "C")
+        self.btn_percentage = self.create_button(2, 1, "%")
+        self.btn_R = self.create_button(2, 2, "R")
+        self.btn_dvision = self.create_button(2, 3, "/")
 
-        self.button = tk.Button(self, text="%", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=2, column=1, **opts)
+        self.btn_7 = self.create_button(3, 0, "7")
+        self.btn_8 = self.create_button(3, 1, "8")
+        self.btn_9 = self.create_button(3, 2, "9")
+        self.btn_multiply = self.create_button(3, 3, "X")
 
-        self.button = tk.Button(self, text="R", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=2, column=2, **opts)
+        self.btn_4 = self.create_button(4, 0, "4")
+        self.btn_5 = self.create_button(4, 1, "5")
+        self.btn_6 = self.create_button(4, 2, "6")
+        self.btn_subtract = self.create_button(4, 3, "-")
 
-        self.button = tk.Button(self, text="/", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=2, column=3, **opts)
-        # ----------------------------
-        self.button = tk.Button(self, text="7", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=3, column=0, **opts)
+        self.btn_1 = self.create_button(5, 0, "1")
+        self.btn_2 = self.create_button(5, 1, "2")
+        self.btn_3 = self.create_button(5, 2, "3")
+        self.btn_plus = self.create_button(5, 3, "+")
 
-        self.button = tk.Button(self, text="8", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=3, column=1, **opts)
+        self.btn_00 = self.create_button(6, 0, "00")
+        self.btn_0 = self.create_button(6, 1, "0")
+        self.btn_comma = self.create_button(6, 2, ",")
+        self.btn_equal = self.create_button(6, 3, "=")
 
-        self.button = tk.Button(self, text="9", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=3, column=2, **opts)
+    def create_button(self, row, column, content):
+        opts = {'ipadx': 20, 'ipady': 20, 'sticky': 'nswe', "padx": 5, "pady": 5}
+        button = tk.Button(self, text=content)
+        button.config(cursor="hand2", background="blue", foreground="white", bd=0)
+        button.grid(row=row, column=column, **opts)
+        return button
 
-        self.button = tk.Button(self, text="X", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=3, column=3, **opts)
-        # ----------------------------
-        self.button = tk.Button(self, text="4", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=4, column=0, **opts)
-
-        self.button = tk.Button(self, text="5", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=4, column=1, **opts)
-
-        self.button = tk.Button(self, text="6", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=4, column=2, **opts)
-
-        self.button = tk.Button(self, text="-", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=4, column=3, **opts)
-        # ----------------------------
-        self.button = tk.Button(self, text="1", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=5, column=0, **opts)
-
-        self.button = tk.Button(self, text="2", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=5, column=1, **opts)
-
-        self.button = tk.Button(self, text="3", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=5, column=2, **opts)
-
-        self.button = tk.Button(self, text="+", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=5, column=3, **opts)
-        #----------------------------------
-        self.button = tk.Button(self, text="00", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=6, column=0, **opts)
-
-        self.button = tk.Button(self, text="0", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=6, column=1, **opts)
-
-        self.button = tk.Button(self, text=",", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=6, column=2, **opts)
-
-        self.button = tk.Button(self, text="=", command=self.btn_reset)
-        self.button.config(cursor="hand2", background="blue", foreground="white", bd=0)
-        self.button.grid(row=6, column=3, **opts)
 
     def btn_reset(self):
         pass
