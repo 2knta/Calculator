@@ -18,13 +18,17 @@ class Calculator(tk.Frame):
         self.root = root
         self.config(width=WIDTH, height=HEIGHT, background=BACKGROUND_COLOR)
         self.pack(fill="both", expand="True")
+
+        self.current_number = tk.StringVar()
+        self.aux_number = ""
+
         self.create_ui()
 
     def create_ui(self):
         
         # Display
         opts = {'ipadx': 20, 'ipady': 20, 'sticky': 'nswe', "padx": 5, "pady": 5}
-        self.display = tk.Label(self)
+        self.display = tk.Label(self, textvariable = self.current_number)
         self.display.grid(row=0, column=0, columnspan=4, rowspan=2, **opts)
 
         # Buttons
@@ -57,9 +61,15 @@ class Calculator(tk.Frame):
         opts = {'ipadx': 20, 'ipady': 20, 'sticky': 'nswe', "padx": 5, "pady": 5}
         button = tk.Button(self, text=content)
         button.config(cursor="hand2", background="blue", foreground="white", bd=0)
+        if content in "00123456789":
+            button.config(command=partial(self.btn_number, content))
         button.grid(row=row, column=column, **opts)
         return button
 
+
+    def btn_number(self, number):
+        self.current_number.set(self.current_number.get() + number)
+    
 
     def btn_reset(self):
         pass
