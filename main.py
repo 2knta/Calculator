@@ -6,6 +6,13 @@ WIDTH = 265
 HEIGHT = 450
 GEOMETRY = "{}x{}".format(WIDTH, HEIGHT)
 BACKGROUND_COLOR = "#181717"
+BUTTONS = {"1": [5,0], "2": [5,1], "3": [5,2],
+            "4": [4,0], "5": [4,1], "6": [4,2],
+            "7": [3,0], "8": [3,1], "9": [3,2],
+            "0": [6,1], "C": [2,0], "%": [2,1],
+            "R": [2,2], "/": [2,3], "X": [3,3],
+            "-": [4,3], "+": [5,3], "00": [6,0],
+            ",": [6,2], "=": [6,3]}
 
 
 class App(tk.Tk):
@@ -28,37 +35,16 @@ class Calculator(tk.Frame):
 
     def create_ui(self):
         
-        # Display
+        # Create Display
         opts = {'ipadx': 20, 'ipady': 20, 'sticky': 'nswe', "padx": 5, "pady": 5}
         fontStyle = tkFont.Font(family="Lucida Grande", size=20)
         self.display = tk.Label(self, textvariable = self.current_number, font = fontStyle , anchor="e")
         self.display.grid(row=0, column=0, columnspan=4, rowspan=2, **opts)
 
-        # Buttons
-        self.btn_C = self.create_button(2, 0, "C")
-        self.btn_percentage = self.create_button(2, 1, "%")
-        self.btn_R = self.create_button(2, 2, "R")
-        self.btn_dvision = self.create_button(2, 3, "/")
+        # Create Buttons
+        for btn in BUTTONS:
+            self.btn = self.create_button(BUTTONS[btn][0], BUTTONS[btn][1], btn)
 
-        self.btn_7 = self.create_button(3, 0, "7")
-        self.btn_8 = self.create_button(3, 1, "8")
-        self.btn_9 = self.create_button(3, 2, "9")
-        self.btn_multiply = self.create_button(3, 3, "X")
-
-        self.btn_4 = self.create_button(4, 0, "4")
-        self.btn_5 = self.create_button(4, 1, "5")
-        self.btn_6 = self.create_button(4, 2, "6")
-        self.btn_subtract = self.create_button(4, 3, "-")
-
-        self.btn_1 = self.create_button(5, 0, "1")
-        self.btn_2 = self.create_button(5, 1, "2")
-        self.btn_3 = self.create_button(5, 2, "3")
-        self.btn_plus = self.create_button(5, 3, "+")
-
-        self.btn_00 = self.create_button(6, 0, "00")
-        self.btn_0 = self.create_button(6, 1, "0")
-        self.btn_comma = self.create_button(6, 2, ",")
-        self.btn_equal = self.create_button(6, 3, "=")
 
     def create_button(self, row, column, content):
         opts = {'ipadx': 20, 'ipady': 20, 'sticky': 'nswe', "padx": 5, "pady": 5}
