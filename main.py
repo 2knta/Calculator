@@ -6,6 +6,8 @@ WIDTH = 290
 HEIGHT = 480
 GEOMETRY = "{}x{}".format(WIDTH, HEIGHT)
 BACKGROUND_COLOR = "#181717"
+FRAME_OPTS = {"width": WIDTH, "height": HEIGHT, "bg": "black"}
+DISPLAY_OPTS = {'ipadx': 20, 'ipady': 20, 'sticky': 'nswe', "padx": 5, "pady": 5}
 BUTTONS = {"1": [5, 0], "2": [5, 1], "3": [5, 2],
            "4": [4, 0], "5": [4, 1], "6": [4, 2],
            "7": [3, 0], "8": [3, 1], "9": [3, 2],
@@ -24,12 +26,11 @@ class App(tk.Tk):
 class Calculator(tk.Frame):
     def __init__(self, root):
         super().__init__(root)
-        self.root = root
-        self.config(width=WIDTH, height=HEIGHT, background=BACKGROUND_COLOR)
+
+        self.config(**FRAME_OPTS)
         self.pack(fill="both", expand="True")
 
         self.current_number = tk.StringVar()
-        
         self.aux_number = ""
         self.op = ""
 
@@ -38,12 +39,10 @@ class Calculator(tk.Frame):
     def create_ui(self):
 
         # Create Display
-        opts = {'ipadx': 20, 'ipady': 20,
-                'sticky': 'nswe', "padx": 5, "pady": 5}
         fontStyle = tkFont.Font(family="Lucida Grande", size=20)
         self.display = tk.Label(
-            self, textvariable=self.current_number, font=fontStyle, anchor="e")
-        self.display.grid(row=0, column=0, columnspan=4, rowspan=2, **opts)
+        self, textvariable=self.current_number, font=fontStyle, anchor="e", bg="black", fg="white", padx=10)
+        self.display.grid(row=0, column=0, columnspan=4, rowspan=2, **DISPLAY_OPTS)
 
         # Create Buttons
         for btn in BUTTONS:
@@ -54,7 +53,7 @@ class Calculator(tk.Frame):
         opts = {'ipadx': 25, 'ipady': 25,
                 'sticky': 'nswe', "padx": 2.5, "pady": 2.5}
         button = tk.Button(self, text=content)
-        button.config(cursor="hand2", background="blue",
+        button.config(cursor="hand2", background=BACKGROUND_COLOR,
                       foreground="white", bd=0)
         if content in "00123456789":
             button.config(command=partial(self.btn_number, content))
@@ -72,10 +71,12 @@ class Calculator(tk.Frame):
         return button
 
     def btn_number(self, number):
+        self.check_error()
         self.current_number.set(self.current_number.get() + number)
 
     def btn_comma_action(self):
-        if "." not in self.current_number.get():
+        self.check_error()            
+        if "." not in self.current_number.get() and self.current_number.get() != "":
             self.current_number.set(self.current_number.get() + ".")
 
     def btn_reset(self):
@@ -83,6 +84,7 @@ class Calculator(tk.Frame):
         self.aux_number = ""
 
     def btn_remove_one(self):
+        self.check_error()
         if self.current_number != "":
             self.current_number.set(self.current_number.get()[:-1])
 
@@ -92,6 +94,9 @@ class Calculator(tk.Frame):
         self.op = "+"
 
     def btn_action(self, option):
+        self.check_error()
+        if self.aux_number != "":
+            self.btn_equal_action()
         if option == "+":
             self.aux_number = self.current_number.get()
             self.current_number.set("")
@@ -120,8 +125,14 @@ class Calculator(tk.Frame):
             self.current_number.set(
                 float(self.current_number.get()) * float(self.aux_number))
         elif self.op == "/":
-            self.current_number.set(
-                float(self.aux_number) / float(self.current_number.get()))
+            try:
+                self.current_number.set(float(self.aux_number) / float(self.current_number.get()))
+            except:
+                self.current_number.set("Error")
+
+    def check_error(self):
+        if self.current_number.get() == "Error":
+            self.current_number.set("")
 
 
 if __name__ == "__main__":
